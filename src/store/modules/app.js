@@ -9,6 +9,9 @@ const state = {
 }
 
 const mutations = {
+  /**
+   * 切换侧边栏导航条显示和隐藏，设置Cookies
+   */
   TOGGLE_SIDEBAR: state => {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
@@ -18,11 +21,17 @@ const mutations = {
       Cookies.set('sidebarStatus', 0)
     }
   },
+  /**
+   * 侧边栏导航条隐藏
+   */
   CLOSE_SIDEBAR: (state, withoutAnimation) => {
     Cookies.set('sidebarStatus', 0)
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
   },
+  /**
+   * 切换设备
+   */
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
   }

@@ -24,8 +24,8 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Admin Template',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      title: '双羿竹木ERP管理系统',
+      logo: 'http://www.fjsyzm.com/Upload/%E9%A6%96%E9%A1%B5/logo-17213215110.png'
     }
   }
 }

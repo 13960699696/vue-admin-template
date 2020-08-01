@@ -13,16 +13,16 @@
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain, TagsView } from './components'
+import { AppMain, Navbar, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 
 export default {
   name: 'Layout',
   components: {
+    AppMain,
     Navbar,
     Sidebar,
-    AppMain,
     TagsView
   },
   mixins: [ResizeMixin],
@@ -59,11 +59,13 @@ export default {
     position: relative;
     height: 100%;
     width: 100%;
-    &.mobile.openSidebar{
+
+    &.mobile.openSidebar {
       position: fixed;
       top: 0;
     }
   }
+
   .drawer-bg {
     background: #000;
     opacity: 0.3;

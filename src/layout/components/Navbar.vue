@@ -1,30 +1,88 @@
 <template>
   <div class="navbar">
-    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      id="hamburger-container"
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <template v-if="device!=='mobile'">
+      <template v-if="device !== 'mobile'">
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
-      <el-dropdown class="avatar-container" trigger="click">
+
+      <el-dropdown
+        class="avatar-container right-menu-item hover-effect"
+        trigger="click"
+      >
         <div class="avatar-wrapper">
-          <img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80" class="user-avatar">
+          <img
+            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596004160609&di=b1ad41b083a9da47335258385fe2a812&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D1300839109%2C1341299699%26fm%3D214%26gp%3D0.jpg"
+            class="user-avatar"
+          />
           <i class="el-icon-caret-bottom" />
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
+        <el-dropdown-menu slot="dropdown">
           <router-link to="/">
             <el-dropdown-item>
               首页
             </el-dropdown-item>
           </router-link>
+          <el-dropdown-item divided @click.native="handlePwd">
+            <span style="display: block;">修改密码</span>
+          </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">退出登录</span>
+            <span style="display: block;">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-dialog
+      title="修改密码"
+      :visible.sync="dialogFormVisible"
+      width="400px"
+      :append-to-body="true"
+    >
+      <el-form
+        :model="ruleForm"
+        status-icon
+        :rules="rules"
+        ref="ruleForm"
+        label-width="100px"
+        style="width: 300px;"
+      >
+        <el-form-item label="原密码" prop="oldPwd">
+          <el-input
+            type="password"
+            v-model="ruleForm.oldPwd"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="newPwd">
+          <el-input
+            type="password"
+            v-model="ruleForm.newPwd"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass">
+          <el-input
+            type="password"
+            v-model="ruleForm.checkPass"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')"
+            >提交</el-button
+          >
+          <el-button @click="$refs['ruleForm'].resetFields()">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -33,18 +91,58 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
+import { ChangePwd } from '@/api/user'
+import { validPassword } from '@/utils/validate'
 
 export default {
   components: {
     Breadcrumb,
-    Screenfull,
-    Hamburger
+    Hamburger,
+    Screenfull
   },
   computed: {
-    ...mapGetters([
-      'sidebar',
-      'device'
-    ])
+    ...mapGetters(['sidebar', 'device'])
+  },
+  data() {
+    const validateoldPwd = (rule, value, callback) => {
+      if (!validPassword(value)) {
+        callback(new Error('密码不能含有非法字符，长度在4-10之间'))
+      } else {
+        callback()
+      }
+    }
+    // 校验确认密码是否一致
+    const validatecheckPass = (rule, value, callback) => {
+      // value 代表 checkPass
+      if (value !== this.ruleForm.newPwd) {
+        callback(new Error('两次输入的密码不一致'))
+      } else {
+        // 相等,则通过
+        callback()
+      }
+    }
+
+    // 注意:在 return 上面,而上面不能使用 逗号 , 结束
+    return {
+      dialogFormVisible: false,
+      ruleForm: {
+        oldPwd: '',
+        newPwd: '',
+        checkPass: ''
+      },
+      rules: {
+        oldPwd: [
+          { required: true, trigger: 'blur', validator: validateoldPwd }
+        ],
+        newPwd: [
+          { required: true, trigger: 'blur', validator: validateoldPwd }
+        ],
+        checkPass: [
+          { required: true, message: '确认密码不能为空', trigger: 'blur' },
+          { validator: validatecheckPass, trigger: 'change' }
+        ]
+      }
+    }
   },
   methods: {
     toggleSideBar() {
@@ -53,6 +151,33 @@ export default {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    },
+    handlePwd() {
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['ruleForm'].resetFields()
+      })
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          let arr2 = { ...this.ruleForm }
+          delete arr2.checkPass
+          ChangePwd(arr2).then(res => {
+            this.$message({
+              message: res.Msg,
+              type: 'succcess'
+            })
+            // 更新成功, 退出系统,回到登录页面
+            this.logout()
+            // 关闭窗口
+            this.dialogFormVisible = false
+          })
+        } else {
+          this.$message.error('校验失败，请核查密码')
+          return false
+        }
+      })
     }
   }
 }
@@ -64,23 +189,27 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
-
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   .hamburger-container {
     line-height: 46px;
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(0, 0, 0, 0.025);
     }
   }
 
   .breadcrumb-container {
     float: left;
+  }
+
+  .errLog-container {
+    display: inline-block;
+    vertical-align: top;
   }
 
   .right-menu {
@@ -102,10 +231,10 @@ export default {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }

@@ -1,28 +1,43 @@
+<!-- Vue SFC -->
 <template>
-    <div>
-        我是部门页面
-    </div>
+  <div id="app">
+    <treeselect v-model="value" :multiple="true" :options="options" />
+  </div>
 </template>
 
 <script>
-export default {
+  // import the component
+  import Treeselect from '@riophae/vue-treeselect'
+  // import the styles
+  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+
+  export default {
+    // register the component
+    components: { Treeselect },
     data() {
-        return {
+      return {
+        // define the default value
+        value: null,
+        // define options
+        options: [ {
+          id: 'a',
+          label: 'a',
+          children: [ {
+            id: 'aa',
+            label: 'aa',
+          }, {
+            id: 'ab',
+            label: 'ab',
+          } ],
+        }, {
+          id: 'b',
+          label: 'b',
+        }, {
+          id: 'c',
+          label: 'c',
+        } ],
+      }
 
-        };
     },
-    created() {
-
-    },
-    mounted() {
-
-    },
-    methods: {
-
-    }
-};
+  }
 </script>
-
-<style scoped lang="scss">
-
-</style>

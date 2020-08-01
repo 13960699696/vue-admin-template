@@ -30,7 +30,6 @@ import '@/permission'
 Vue.use(ElementUI,{
   size: 'mini'
 })
-
 Vue.config.productionTip = false
 
 new Vue({

@@ -44,11 +44,9 @@ router.beforeEach(async (to, from, next) => {
           const { UserInfo } =await store.dispatch('user/getInfo')
           // 获取菜单权限
           const accessRoutes = await store.dispatch('permission/generateRoutes', UserInfo.RoleNameList)
-
           // 添加异步路由
           router.addRoutes(accessRoutes)
-
-          next()
+          next({ ...to, replace: true })
         } catch (error) {
           // 获取用户信息失败移除token重新登入
           await store.dispatch('user/resetToken')

@@ -12,7 +12,7 @@
         @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
-        {{tag.title}}
+        {{ tag.title }}
         <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
@@ -27,6 +27,7 @@ export default {
   components: { ScrollPane },
   data() {
     return {
+      visible: false,
       top: 0,
       left: 0,
       selectedTag: {},
@@ -55,9 +56,7 @@ export default {
     }
   },
   mounted() {
-    //初始化tag
     this.initTags()
-    //添加tag
     this.addTags()
   },
   methods: {
@@ -157,7 +156,7 @@ export default {
       } else {
         // now the default is to redirect to the home page if there is no tags-view,
         // you can adjust it according to your needs.
-        if (view.name === 'Dashboard') {
+        if (view.name === 'Index') {
           // to reload home page
           this.$router.replace({ path: '/redirect' + view.fullPath })
         } else {

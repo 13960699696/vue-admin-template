@@ -1,4 +1,4 @@
-import { login,  getInfo } from '@/api/user'
+import { login,  getInfo} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -71,9 +71,11 @@ const actions = {
       })
     })
   },
-
-  // 退出登录
-  logout({ commit, state }) {
+  /**
+   * 退出登录
+   * @param {*} param0 
+   */
+  logout({ commit }) {
     return new Promise((resolve, reject) => {
         removeToken()
         resetRouter()
@@ -81,8 +83,10 @@ const actions = {
         resolve()
     })
   },
-
-  // 移除token
+  /**
+   * 移除token
+   * @param {*} param0 
+   */
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // must remove  token  first

@@ -13,7 +13,8 @@ export function isExternal(path) {
  * @returns {Boolean}
  */
 export function validUsername(str) {
-  var reg = /^[a-zA-Z][a-zA-Z0-9]{3,15}$/;
+  str=str||""
+  var reg = /^[a-zA-Z0-9_-]{4,16}$/;
   return reg.test(str);
 }
 
@@ -23,6 +24,7 @@ export function validUsername(str) {
  * @returns {Boolean}
  */
 export function validPassword(str) {
+  str=str||""
   var reg = /^[a-zA-Z0-9]{4,10}$/;
   return reg.test(str);
 }

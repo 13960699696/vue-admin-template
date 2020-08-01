@@ -89,7 +89,7 @@ export default {
         return this.basePath
       }
       return path.resolve(this.basePath, routePath)
-    }
+    },
   }
 }
 </script>

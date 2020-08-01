@@ -59,35 +59,19 @@
 </template>
 
 <script>
-import { validUsername,validPassword } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 
 export default {
   name: 'Login',
   components: { SocialSign },
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('用户名必须4~16位以字母开头的，字母数字下划线组成的'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (!validPassword(value)) {
-        callback(new Error('密码不能含有非法字符，长度在4-10之间'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         userName: '',
         password: ''
       },
       loginRules: {
-        userName: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        userName: [{ required: true, message: '必填' }],
       },
       loading: false,
       passwordType: 'password',
@@ -171,6 +155,11 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+  background: url("../../assets/images/eva.jpg") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
   .el-input {
     display: inline-block;
     height: 47px;
