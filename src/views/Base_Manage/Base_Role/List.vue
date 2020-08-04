@@ -1,88 +1,212 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="handleAddRole">新增角色</el-button>
-    <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
-      <el-table-column align="center" label="角色ID" width="220">
-        <template slot-scope="scope">{{ scope.row.Id }}</template>
+    <div class="filter-container">
+      <el-input
+        v-model="queryParam.roleName"
+        placeholder="角色名"
+        style="width: 200px;"
+        class="filter-item"
+        @keyup.enter.native="handleFilter"
+      />
+      <el-button
+        v-waves
+        class="filter-item"
+        type="primary"
+        icon="el-icon-search"
+        @click="handleFilter"
+        >查询</el-button
+      >
+      <el-button
+        class="filter-item"
+        style="margin-left: 5px;"
+        type="primary"
+        icon="el-icon-edit"
+        @click="hanldleAdd"
+        >添加</el-button
+      >
+      <el-button
+        class="filter-item"
+        style="margin-left: 5px;"
+        type="primary"
+        icon="minus"
+        @click="handleDelete(selectedRowKeys)"
+        :disabled="!hasSelected()"
+        :loading="listLoading"
+        >批量删除</el-button
+      >
+    </div>
+    <el-table
+      :key="tableKey"
+      v-loading="listLoading"
+      :data="list"
+      border
+      fit
+      highlight-current-row
+      style="width: 100%;"
+      @selection-change="onSelectChange"
+    >
+      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column
+        v-for="(item, index) in columns"
+        :key="index"
+        :prop="item.dataIndex"
+        :width="item.width"
+        :label="item.title"
+      >
       </el-table-column>
-      <el-table-column align="center" label="创建时间" width="220">
-        <template slot-scope="scope">{{ scope.row.CreateTime }}</template>
-      </el-table-column>
-      <el-table-column align="center" label="创建人ID" width="220">
-        <template slot-scope="scope">{{ scope.row.CreatorId }}</template>
-      </el-table-column>
-      <el-table-column align="center" label="角色名">
-        <template slot-scope="scope">{{ scope.row.RoleName }}</template>
-      </el-table-column>
-      <el-table-column align="center" label="操作">
-        <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">编辑权限</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">删除</el-button>
+      <el-table-column
+        label="操作"
+        align="center"
+        width="230"
+        class-name="small-padding fixed-width"
+      >
+        <template slot-scope="{ row }">
+          <el-button type="primary" @click="handleEdit(row.Id)">
+            编辑
+          </el-button>
+          <el-button type="danger" @click="handleDelete([row.Id])">
+            删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'编辑角色':'新增角色'">
-      <el-form :model="role" label-width="80px" label-position="left">
-        <el-form-item label="角色名">
-          <el-input v-model="role.RoleName" placeholder="请输入角色名" />
-        </el-form-item>
-        <!-- <el-form-item label="权限菜单">
-          <el-tree ref="tree" :check-strictly="checkStrictly" :data="routesData" :props="defaultProps" show-checkbox node-key="path" class="permission-tree" />
-        </el-form-item> -->
-      </el-form>
-      <div style="text-align:right;">
-        <el-button type="danger" @click="dialogVisible=false">
-          取消
-        </el-button>
-        <el-button type="primary">
-          确定
-        </el-button>
-      </div>
-    </el-dialog>
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="pagination.PageIndex"
+      :limit.sync="pagination.PageRows"
+      @pagination="getList"
+    />
+    <form-dialog ref="formdialog" :afterSubmit="getList"></form-dialog>
   </div>
 </template>
 
 <script>
-const defaultRole = {
-  Id: "",
-  CreateTime: "",
-  CreatorId: "",
-  RoleName: "",
-};
+import Pagination from '@/components/Pagination'
+import waves from '@/directive/waves'
+import FormDialog from './components/FormDialog'
+import { GetDataList ,DeleteData} from '@/api/role'
+const columns = [
+  { title: '角色名', dataIndex: 'RoleName', width: '300' }
+]
 export default {
+  components: { Pagination, FormDialog },
+  directives: { waves },
   data() {
     return {
-      role: Object.assign({}, defaultRole),
-      rolesList: [],
-      dialogVisible: false,
-      dialogType: '新增角色',
+      tableKey: 0,
+      list: null,
+      total: 0,
+      listLoading: false,
+      selectedRowKeys: [],
+      columns,
+      queryParam: {},
+      sorter: { SortField: 'Id', SortType: 'asc' },
+      pagination: {
+        PageIndex: 1,
+        PageRows: 10
+      },
     };
   },
-  created() {},
-  mounted() {},
+  mounted() {
+    this.getList()
+  },
   methods: {
     /**
-     * 添加角色
+     * 获取数据列表
      */
-    handleAddRole() {
-      this.role = Object.assign({}, defaultRole);
-      if (this.$refs.tree) {
-        this.$refs.tree.setCheckedNodes([]);
-      }
-      this.dialogType = "新增角色";
-      this.dialogVisible = true;
+    getList() {
+      this.listLoading = true
+      GetDataList({
+        ...this.pagination,
+        ...this.sorter,
+        Search: this.queryParam
+      }).then(response => {
+        this.list = response.Data
+        this.total = response.Total
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
     },
+    /**
+     * 重新加载数据
+     */
+    handleFilter() {
+      this.pagination.PageIndex = 1
+      this.getList()
+    },
+    /**
+     * 添加数据
+     */
+    hanldleAdd() {
+      this.$refs.formdialog.openForm()
+    },
+    /**
+     * 编辑数据
+     */
+    handleEdit(id) {
+      this.$refs.formdialog.openForm(id)
+    },
+    /**
+     * 删除数据
+     */
+    handleDelete(ids) {
+      var thisObj = this
+      this.$confirm('确认删除吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          return new Promise((resolve, reject) => {
+            thisObj.submitDelete(ids, resolve, reject)
+          }).catch(() => console.log('Oops errors!'))
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+    },
+    /**
+     * 确认删除数据
+     */
+    submitDelete(ids, resolve, reject) {
+      DeleteData(ids).then(resJson => {
+        resolve()
+        if (resJson.Success) {
+          this.$message.success('操作成功!')
+          this.getList()
+        } else {
+          this.$message.error(resJson.Msg)
+        }
+      })
+    },
+    /**
+     * 判断是否选择
+     */
+    hasSelected() {
+      return this.selectedRowKeys.length > 0
+    },
+    /**
+     * 表格选择改变
+     */
+    onSelectChange(val) {
+      this.selectedRowKeys=[];
+      val.forEach((item, index, array) => {
+        this.selectedRowKeys.push(item.Id)
+      })
+    }
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .app-container {
-  .roles-table {
-    margin-top: 30px;
-  }
-  .permission-tree {
-    margin-bottom: 30px;
+  .filter-item {
+    margin-left: 5px;
   }
 }
 </style>

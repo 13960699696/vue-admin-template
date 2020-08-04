@@ -86,7 +86,6 @@ import { GetDataList, DeleteData } from '@/api/user'
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
 import FormDialog from './components/FormDialog'
-import { forEach } from '../../../../../vue-element-admin-i18n/mock/user'
 const columns = [
   { title: '用户名', dataIndex: 'UserName', width: '120' },
   { title: '姓名', dataIndex: 'RealName', width: '60' },
@@ -103,7 +102,7 @@ export default {
       tableKey: 0,
       list: null,
       total: 0,
-      listLoading: true,
+      listLoading: false,
       queryParam: {},
       sorter: { SortField: 'Id', SortType: 'asc' },
       pagination: {

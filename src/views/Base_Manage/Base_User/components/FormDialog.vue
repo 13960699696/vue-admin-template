@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import { GetDataList } from '@/api/role'
@@ -123,11 +122,7 @@ export default {
       if (id) {
         this.title = '编辑用户'
         GetTheData({ id: id }).then(resJson => {
-          console.log(resJson.Data)
           this.entity = resJson.Data
-          if (this.entity['Birthday']) {
-            this.entity['Birthday'] = this.entity['Birthday']
-          }
         })
       }
     },
