@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { GetDataList, SaveData, GetTheData } from '@/api/role'
 import { GetActionTreeList, GetAllActionList } from '@/api/action'
 export default {

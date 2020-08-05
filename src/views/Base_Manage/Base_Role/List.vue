@@ -28,7 +28,7 @@
         class="filter-item"
         style="margin-left: 5px;"
         type="primary"
-        icon="minus"
+        icon="el-icon-delete-solid"
         @click="handleDelete(selectedRowKeys)"
         :disabled="!hasSelected()"
         :loading="listLoading"
