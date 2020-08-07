@@ -81,7 +81,6 @@ export default {
     return {
       tableKey: 0,
       list: [],
-      total: 0,
       listLoading: false,
       columns,
       selectedRowKeys: []
