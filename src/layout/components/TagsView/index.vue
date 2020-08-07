@@ -60,12 +60,21 @@ export default {
     this.addTags()
   },
   methods: {
+    /**
+     * 设置当前路由选中的样式
+     */
     isActive(route) {
       return route.path === this.$route.path
     },
+    /**
+     * 判断是否固定的tags
+     */
     isAffix(tag) {
       return tag.meta && tag.meta.affix
     },
+    /**
+     * 过滤Affix的路由
+     */
     filterAffixTags(routes, basePath = '/') {
       let tags = []
       routes.forEach(route => {
@@ -87,6 +96,9 @@ export default {
       })
       return tags
     },
+    /**
+     * 初始化Tags
+     */
     initTags() {
       const affixTags = this.affixTags = this.filterAffixTags(this.routes)
       for (const tag of affixTags) {
@@ -96,6 +108,9 @@ export default {
         }
       }
     },
+    /**
+     * 添加Tags
+     */
     addTags() {
       const { name } = this.$route
       if (name) {
@@ -103,13 +118,15 @@ export default {
       }
       return false
     },
+    /**
+     * 跳转到当前tags
+     */
     moveToCurrentTag() {
       const tags = this.$refs.tag
       this.$nextTick(() => {
         for (const tag of tags) {
           if (tag.to.path === this.$route.path) {
             this.$refs.scrollPane.moveToTarget(tag)
-            // when query is different then update
             if (tag.to.fullPath !== this.$route.fullPath) {
               this.$store.dispatch('tagsView/updateVisitedView', this.$route)
             }
@@ -118,6 +135,9 @@ export default {
         }
       })
     },
+    /**
+     * 刷新tags删除选择的tags
+     */
     refreshSelectedTag(view) {
       this.$store.dispatch('tagsView/delCachedView', view).then(() => {
         const { fullPath } = view
@@ -128,6 +148,9 @@ export default {
         })
       })
     },
+    /**
+     * 关闭选择Tags
+     */
     closeSelectedTag(view) {
       this.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
         if (this.isActive(view)) {
@@ -135,12 +158,18 @@ export default {
         }
       })
     },
+    /**
+     * 关闭其他Tags
+     */
     closeOthersTags() {
       this.$router.push(this.selectedTag)
       this.$store.dispatch('tagsView/delOthersViews', this.selectedTag).then(() => {
         this.moveToCurrentTag()
       })
     },
+    /**
+     * 关闭所有Tags
+     */
     closeAllTags(view) {
       this.$store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
         if (this.affixTags.some(tag => tag.path === view.path)) {
@@ -149,15 +178,15 @@ export default {
         this.toLastView(visitedViews, view)
       })
     },
+    /**
+     * 跳转最后一个tags
+     */
     toLastView(visitedViews, view) {
       const latestView = visitedViews.slice(-1)[0]
       if (latestView) {
         this.$router.push(latestView.fullPath)
       } else {
-        // now the default is to redirect to the home page if there is no tags-view,
-        // you can adjust it according to your needs.
         if (view.name === 'Index') {
-          // to reload home page
           this.$router.replace({ path: '/redirect' + view.fullPath })
         } else {
           this.$router.push('/')
@@ -166,10 +195,10 @@ export default {
     },
     openMenu(tag, e) {
       const menuMinWidth = 105
-      const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
-      const offsetWidth = this.$el.offsetWidth // container width
-      const maxLeft = offsetWidth - menuMinWidth // left boundary
-      const left = e.clientX - offsetLeft + 15 // 15: margin right
+      const offsetLeft = this.$el.getBoundingClientRect().left
+      const offsetWidth = this.$el.offsetWidth
+      const maxLeft = offsetWidth - menuMinWidth
+      const left = e.clientX - offsetLeft + 15
 
       if (left > maxLeft) {
         this.left = maxLeft
@@ -181,6 +210,9 @@ export default {
       this.visible = true
       this.selectedTag = tag
     },
+    /**
+     * 移除页面监听事件
+     */
     closeMenu() {
       this.visible = false
     },

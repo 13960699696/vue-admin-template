@@ -8,7 +8,7 @@
 import adminDashboard from './admin'
 
 export default {
-  name: 'Dashboard',
+  name: 'Index',
   components: { adminDashboard }
 }
 </script>
