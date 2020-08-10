@@ -20,7 +20,7 @@
           auto-complete="on"
         />
       </el-form-item>
-    
+
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -49,7 +49,7 @@
       </div>
     </el-form>
     <el-dialog title="第三方登录" :visible.sync="showDialog">
-      此功能待定,非必要功能。。。。。 
+      此功能待定,非必要功能。。。。。
       <br>
       <br>
       <br>
@@ -71,7 +71,7 @@ export default {
         password: ''
       },
       loginRules: {
-        userName: [{ required: true, message: '必填' }],
+        userName: [{ required: true, message: '必填' }]
       },
       loading: false,
       passwordType: 'password',

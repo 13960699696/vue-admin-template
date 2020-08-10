@@ -14,26 +14,23 @@
         type="primary"
         icon="el-icon-search"
         @click="handleFilter"
-        >查询</el-button
-      >
+      >查询</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
         type="primary"
         icon="el-icon-edit"
         @click="hanldleAdd"
-        >添加</el-button
-      >
+      >添加</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
         type="primary"
         icon="el-icon-delete-solid"
-        @click="handleDelete(selectedRowKeys)"
         :disabled="!hasSelected()"
         :loading="listLoading"
-        >批量删除</el-button
-      >
+        @click="handleDelete(selectedRowKeys)"
+      >批量删除</el-button>
     </div>
     <el-table
       :key="tableKey"
@@ -45,28 +42,18 @@
       style="width: 100%;"
       @selection-change="onSelectChange"
     >
-      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column type="selection" width="55" />
       <el-table-column
         v-for="(item, index) in columns"
         :key="index"
         :prop="item.dataIndex"
         :width="item.width"
         :label="item.title"
-      >
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center"
-        width="230"
-        class-name="small-padding fixed-width"
-      >
+      />
+      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{ row }">
-          <el-button type="primary" @click="handleEdit(row.Id)">
-            编辑
-          </el-button>
-          <el-button type="danger" @click="handleDelete([row.Id])">
-            删除
-          </el-button>
+          <el-button type="primary" @click="handleEdit(row.Id)">编辑</el-button>
+          <el-button type="danger" @click="handleDelete([row.Id])">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -77,7 +64,7 @@
       :limit.sync="pagination.PageRows"
       @pagination="getList"
     />
-    <form-dialog ref="formdialog" :afterSubmit="getList"></form-dialog>
+    <form-dialog ref="formdialog" :after-submit="getList" />
   </div>
 </template>
 
@@ -95,7 +82,7 @@ const columns = [
   { title: '所属角色', dataIndex: 'RoleNames', width: '300' }
 ]
 export default {
-  name: 'Base_User',
+  name: 'BaseUser',
   components: { Pagination, FormDialog },
   directives: { waves },
   data() {
@@ -127,7 +114,7 @@ export default {
         ...this.pagination,
         ...this.sorter,
         Search: this.queryParam
-      }).then(response => {
+      }).then((response) => {
         this.list = response.Data
         this.total = response.Total
         setTimeout(() => {
@@ -180,7 +167,7 @@ export default {
      * 确认删除数据
      */
     submitDelete(ids, resolve, reject) {
-      DeleteData(ids).then(resJson => {
+      DeleteData(ids).then((resJson) => {
         resolve()
         if (resJson.Success) {
           this.$message.success('操作成功!')
@@ -200,7 +187,7 @@ export default {
      * 表格选择改变
      */
     onSelectChange(val) {
-      this.selectedRowKeys=[];
+      this.selectedRowKeys = []
       val.forEach((item, index, array) => {
         this.selectedRowKeys.push(item.Id)
       })

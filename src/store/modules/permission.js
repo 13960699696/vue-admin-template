@@ -57,7 +57,7 @@ const actions = {
         }
         commit('SET_ROUTES', accessedRoutes)
         resolve(accessedRoutes)
-      });
+      })
     })
   }
 }

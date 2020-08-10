@@ -14,26 +14,23 @@
         type="primary"
         icon="el-icon-search"
         @click="handleFilter"
-        >查询</el-button
-      >
+      >查询</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
         type="primary"
         icon="el-icon-edit"
         @click="hanldleAdd"
-        >添加</el-button
-      >
+      >添加</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
         type="primary"
         icon="el-icon-delete-solid"
-        @click="handleDelete(selectedRowKeys)"
         :disabled="!hasSelected()"
         :loading="listLoading"
-        >批量删除</el-button
-      >
+        @click="handleDelete(selectedRowKeys)"
+      >批量删除</el-button>
     </div>
     <el-table
       :key="tableKey"
@@ -45,15 +42,14 @@
       style="width: 100%;"
       @selection-change="onSelectChange"
     >
-      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column type="selection" width="55" />
       <el-table-column
         v-for="(item, index) in columns"
         :key="index"
         :prop="item.dataIndex"
         :width="item.width"
         :label="item.title"
-      >
-      </el-table-column>
+      />
       <el-table-column
         label="操作"
         align="center"
@@ -77,7 +73,7 @@
       :limit.sync="pagination.PageRows"
       @pagination="getList"
     />
-    <form-dialog ref="formdialog" :afterSubmit="getList"></form-dialog>
+    <form-dialog ref="formdialog" :after-submit="getList" />
   </div>
 </template>
 
@@ -85,12 +81,12 @@
 import Pagination from '@/components/Pagination'
 import waves from '@/directive/waves'
 import FormDialog from './components/FormDialog'
-import { GetDataList ,DeleteData} from '@/api/role'
+import { GetDataList, DeleteData } from '@/api/role'
 const columns = [
   { title: '角色名', dataIndex: 'RoleName', width: '300' }
 ]
 export default {
-  name: 'Base_Role',
+  name: 'BaseRole',
   components: { Pagination, FormDialog },
   directives: { waves },
   data() {
@@ -106,8 +102,8 @@ export default {
       pagination: {
         PageIndex: 1,
         PageRows: 10
-      },
-    };
+      }
+    }
   },
   mounted() {
     this.getList()
@@ -195,13 +191,13 @@ export default {
      * 表格选择改变
      */
     onSelectChange(val) {
-      this.selectedRowKeys=[];
+      this.selectedRowKeys = []
       val.forEach((item, index, array) => {
         this.selectedRowKeys.push(item.Id)
       })
     }
-  },
-};
+  }
+}
 </script>
 
 <style scoped lang="scss">

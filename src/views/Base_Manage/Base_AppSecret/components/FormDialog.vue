@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { GetTheData,SaveData } from '@/api/appsecret'
+import { GetTheData, SaveData } from '@/api/appsecret'
 export default {
   props: {
     afterSubmit: {
@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      title:'添加接口密钥',
+      title: '添加接口密钥',
       visible: false,
       entity: {},
       rules: {
@@ -67,7 +67,7 @@ export default {
     openForm(id) {
       this.init()
       if (id) {
-        GetTheData( { id: id }).then(resJson => {
+        GetTheData({ id: id }).then(resJson => {
           this.entity = resJson.Data
         })
       }

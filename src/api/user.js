@@ -17,7 +17,7 @@ export function login(data) {
 export function getInfo() {
   return request({
     url: '/Base_Manage/Home/GetOperatorInfo',
-    method: 'post',
+    method: 'post'
   })
 }
 /**

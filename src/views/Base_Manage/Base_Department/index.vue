@@ -7,8 +7,7 @@
         type="primary"
         icon="el-icon-edit"
         @click="hanldleAdd()"
-        >添加</el-button
-      >
+      >添加</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
@@ -17,16 +16,14 @@
         :disabled="!hasSelected()"
         :loading="listLoading"
         @click="handleDelete(selectedRowKeys)"
-        >批量删除</el-button
-      >
+      >批量删除</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
         type="primary"
         icon="el-icon-refresh"
         @click="getList()"
-        >刷新</el-button
-      >
+      >刷新</el-button>
     </div>
     <el-table
       :key="tableKey"
@@ -40,15 +37,14 @@
       :default-expand-all="true"
       @selection-change="onSelectChange"
     >
-      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column type="selection" width="55" />
       <el-table-column
         v-for="(item, index) in columns"
         :key="index"
         :prop="item.dataIndex"
         :width="item.width"
         :label="item.title"
-      >
-      </el-table-column>
+      />
       <el-table-column
         label="操作"
         align="center"
@@ -65,18 +61,18 @@
         </template>
       </el-table-column>
     </el-table>
-    <form-dialog ref="formdialog" :afterSubmit="getList"></form-dialog>
+    <form-dialog ref="formdialog" :after-submit="getList" />
   </div>
 </template>
 
 <script>
-import { GetTreeDataList,DeleteData } from '@/api/department'
+import { GetTreeDataList, DeleteData } from '@/api/department'
 import FormDialog from './components/FormDialog'
 const columns = [
-  { title: '部门名', dataIndex: 'Text', width: '300' },
+  { title: '部门名', dataIndex: 'Text', width: '300' }
 ]
 export default {
-  name: 'Base_Department',
+  name: 'BaseDepartment',
   components: { FormDialog },
   data() {
     return {

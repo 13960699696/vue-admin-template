@@ -14,7 +14,7 @@ const whiteList = ['/login']
 /**
  * 路由请求前处理
  */
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   /**
    * 页面进度条开启
    */
@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           // 获取用户信息
-          const { UserInfo } =await store.dispatch('user/getInfo')
+          const { UserInfo } = await store.dispatch('user/getInfo')
           // 获取菜单权限
           const accessRoutes = await store.dispatch('permission/generateRoutes', UserInfo.RoleNameList)
           // 添加异步路由

@@ -13,12 +13,12 @@
       </el-form-item>
       <el-form-item label="上级部门" prop="ParentId">
         <treeselect
-          :normalizer="normalizer"
           v-model="entity.ParentId"
+          :normalizer="normalizer"
           :options="ParentIdTreeData"
           :show-count="true"
           placeholder="请选择部门"
-          :isDefaultExpanded="true"
+          :is-default-expanded="true"
         />
       </el-form-item>
     </el-form>
@@ -36,7 +36,7 @@
 <script>
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import { GetTreeDataList, GetTheData,SaveData } from '@/api/department'
+import { GetTreeDataList, GetTheData, SaveData } from '@/api/department'
 export default {
   components: { Treeselect },
   props: {
@@ -108,7 +108,7 @@ export default {
      * 后台返回的数据和VueTreeselect要求的数据结构不同，需要进行转换
      */
     normalizer(node) {
-      //去掉children=[]的children属性
+      // 去掉children=[]的children属性
       if (node.children && !node.children.length) {
         delete node.children
       }

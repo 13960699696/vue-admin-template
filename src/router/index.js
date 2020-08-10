@@ -49,7 +49,7 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'Index', affix: true }
       }
     ]
-  },
+  }
 ]
 /**
  * 权限路由
@@ -64,7 +64,7 @@ export const asyncRoutes = [
     name: 'Base_Manage',
     meta: {
       title: '系统管理',
-      icon: 'setting',
+      icon: 'setting'
     },
     children: [
       {
@@ -72,7 +72,7 @@ export const asyncRoutes = [
         component: () => import('@/views/Base_Manage/Base_User'),
         name: 'Base_User',
         meta: {
-          title: '用户管理',
+          title: '用户管理'
         }
       },
       {
@@ -80,7 +80,7 @@ export const asyncRoutes = [
         component: () => import('@/views/Base_Manage/Base_Role'),
         name: 'Base_Role',
         meta: {
-          title: '角色管理',
+          title: '角色管理'
         }
       },
       {
@@ -88,7 +88,7 @@ export const asyncRoutes = [
         component: () => import('@/views/Base_Manage/Base_Department'),
         name: 'Base_Department',
         meta: {
-          title: '部门管理',
+          title: '部门管理'
         }
       },
       {
@@ -96,7 +96,7 @@ export const asyncRoutes = [
         component: () => import('@/views/Base_Manage/Base_Action'),
         name: 'Base_Action',
         meta: {
-          title: '权限管理',
+          title: '权限管理'
         }
       },
       {
@@ -104,7 +104,7 @@ export const asyncRoutes = [
         component: () => import('@/views/Base_Manage/Base_AppSecret'),
         name: 'Base_AppSecret',
         meta: {
-          title: '密钥管理',
+          title: '密钥管理'
         }
       }
     ]

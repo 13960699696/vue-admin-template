@@ -1,4 +1,4 @@
-import { login,  getInfo} from '@/api/user'
+import { login, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -7,7 +7,7 @@ const getDefaultState = () => {
     token: getToken(),
     UserName: '',
     Id: '',
-    RoleNames:''
+    RoleNames: ''
   }
 }
 
@@ -34,8 +34,8 @@ const mutations = {
 const actions = {
   /**
    * 用户登录获取token
-   * @param {*} param0 
-   * @param {*} userInfo 
+   * @param {*} param0
+   * @param {*} userInfo
    */
   login({ commit }, userInfo) {
     const { userName, password } = userInfo
@@ -52,7 +52,7 @@ const actions = {
   },
   /**
    * 获取用户信息和权限
-   * @param {*} param0 
+   * @param {*} param0
    */
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
@@ -61,7 +61,7 @@ const actions = {
         if (!Data) {
           return reject('验证失败，请重新登录')
         }
-        const { UserName, Id, RoleNameList} = Data.UserInfo
+        const { UserName, Id, RoleNameList } = Data.UserInfo
         commit('SET_NAME', UserName)
         commit('SET_Id', Id)
         commit('SET_RoleNames', RoleNameList)
@@ -73,19 +73,19 @@ const actions = {
   },
   /**
    * 退出登录
-   * @param {*} param0 
+   * @param {*} param0
    */
   logout({ commit }) {
     return new Promise((resolve, reject) => {
-        removeToken()
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
+      removeToken()
+      resetRouter()
+      commit('RESET_STATE')
+      resolve()
     })
   },
   /**
    * 移除token
-   * @param {*} param0 
+   * @param {*} param0
    */
   resetToken({ commit }) {
     return new Promise(resolve => {

@@ -6,8 +6,7 @@
         type="primary"
         icon="el-icon-edit"
         @click="hanldleAdd()"
-        >添加</el-button
-      >
+      >添加</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
@@ -16,16 +15,14 @@
         :disabled="!hasSelected()"
         :loading="listLoading"
         @click="handleDelete(selectedRowKeys)"
-        >批量删除</el-button
-      >
+      >批量删除</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
         type="primary"
         icon="el-icon-refresh"
         @click="getList()"
-        >刷新</el-button
-      >
+      >刷新</el-button>
     </div>
     <el-table
       :key="tableKey"
@@ -39,7 +36,7 @@
       :default-expand-all="true"
       @selection-change="onSelectChange"
     >
-      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column type="selection" width="55" />
       <el-table-column
         v-for="(item, index) in columns"
         :key="index"
@@ -53,7 +50,7 @@
           </template>
           <template v-else>
             <template v-for="(item, index) in row[column.property]">
-              <br v-if="index != 0" :key="index" />
+              <br v-if="index != 0" :key="index">
               {{ item }}
             </template>
           </template>
@@ -75,12 +72,12 @@
         </template>
       </el-table-column>
     </el-table>
-    <form-dialog ref="formdialog" :afterSubmit="getList"></form-dialog>
+    <form-dialog ref="formdialog" :after-submit="getList" />
   </div>
 </template>
 
 <script>
-import { GetMenuTreeList,DeleteData } from '@/api/action'
+import { GetMenuTreeList, DeleteData } from '@/api/action'
 import FormDialog from './components/FormDialog'
 const columns = [
   { title: '菜单名', dataIndex: 'Text', width: '250' },
@@ -92,7 +89,7 @@ const columns = [
   { title: '排序', dataIndex: 'Sort', width: '60' }
 ]
 export default {
-  name: 'Base_Action',
+  name: 'BaseAction',
   components: { FormDialog },
   data() {
     return {

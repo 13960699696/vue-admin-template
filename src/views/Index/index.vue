@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <admin-dashboard></admin-dashboard>
+    <admin-dashboard />
   </div>
 </template>
 

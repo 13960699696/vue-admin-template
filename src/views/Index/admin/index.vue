@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import PanelGroup from "./components/PanelGroup";
-import LineChart from './components/LineChart';
+import PanelGroup from './components/PanelGroup'
+import LineChart from './components/LineChart'
 const lineChartData = {
   newVisitis: {
     expectedData: [100, 120, 161, 134, 105, 160, 165, 161, 134, 105, 160, 165],
@@ -29,24 +29,24 @@ const lineChartData = {
   }
 }
 export default {
-  name: "DashboardAdmin",
+  name: 'DashboardAdmin',
   components: {
     PanelGroup,
-    LineChart,
+    LineChart
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis,
-    };
+      lineChartData: lineChartData.newVisitis
+    }
   },
   created() {},
   mounted() {},
   methods: {
     handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type];
-    },
-  },
-};
+      this.lineChartData = lineChartData[type]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

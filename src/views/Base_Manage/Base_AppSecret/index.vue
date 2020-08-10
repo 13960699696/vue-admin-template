@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-      <div class="filter-container">
+    <div class="filter-container">
       <el-input
         v-model="queryParam.keyword"
         placeholder="应用名"
@@ -14,16 +14,14 @@
         type="primary"
         icon="el-icon-search"
         @click="handleFilter"
-        >查询</el-button
-      >
+      >查询</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
         type="primary"
         icon="el-icon-edit"
         @click="hanldleAdd"
-        >添加</el-button
-      >
+      >添加</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 5px;"
@@ -32,8 +30,7 @@
         :disabled="!hasSelected()"
         :loading="listLoading"
         @click="handleDelete(selectedRowKeys)"
-        >批量删除</el-button
-      >
+      >批量删除</el-button>
     </div>
     <el-table
       :key="tableKey"
@@ -45,15 +42,14 @@
       style="width: 100%;"
       @selection-change="onSelectChange"
     >
-      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column type="selection" width="55" />
       <el-table-column
         v-for="(item, index) in columns"
         :key="index"
         :prop="item.dataIndex"
         :width="item.width"
         :label="item.title"
-      >
-      </el-table-column>
+      />
       <el-table-column
         label="操作"
         align="center"
@@ -77,7 +73,7 @@
       :limit.sync="pagination.PageRows"
       @pagination="getList"
     />
-    <form-dialog ref="formdialog" :afterSubmit="getList"></form-dialog>
+    <form-dialog ref="formdialog" :after-submit="getList" />
   </div>
 </template>
 
@@ -89,11 +85,11 @@ import FormDialog from './components/FormDialog'
 const columns = [
   { title: '应用Id', dataIndex: 'AppId', width: '200' },
   { title: '密钥', dataIndex: 'AppSecret', width: '200' },
-  { title: '应用名', dataIndex: 'AppName' },
+  { title: '应用名', dataIndex: 'AppName' }
 ]
 export default {
-  name: 'Base_AppSecret',
-  components: { Pagination , FormDialog},
+  name: 'BaseAppSecret',
+  components: { Pagination, FormDialog },
   directives: { waves },
   data() {
     return {
@@ -114,7 +110,7 @@ export default {
   mounted() {
     this.getList()
   },
-  methods:{
+  methods: {
     /**
      * 获取数据列表
      */
@@ -197,7 +193,7 @@ export default {
      * 表格选择改变
      */
     onSelectChange(val) {
-      this.selectedRowKeys=[];
+      this.selectedRowKeys = []
       val.forEach((item, index, array) => {
         this.selectedRowKeys.push(item.Id)
       })

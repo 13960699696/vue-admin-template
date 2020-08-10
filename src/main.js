@@ -27,7 +27,7 @@ import '@/icons'
  */
 import '@/permission'
 
-Vue.use(ElementUI,{
+Vue.use(ElementUI, {
   size: 'mini'
 })
 Vue.config.productionTip = false

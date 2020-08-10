@@ -13,12 +13,12 @@
       </el-form-item>
       <el-form-item label="上级菜单" prop="ParentId">
         <treeselect
-          :normalizer="normalizer"
           v-model="entity.ParentId"
+          :normalizer="normalizer"
           :options="ParentIdTreeData"
           :show-count="true"
           placeholder="请选择上级菜单"
-          :isDefaultExpanded="true"
+          :is-default-expanded="true"
         />
       </el-form-item>
       <el-form-item label="类型" prop="Type">
@@ -47,7 +47,7 @@
           <span>页面权限</span>
         </div>
         <div>
-          <Permission-List ref="permissionList"></Permission-List>
+          <Permission-List ref="permissionList" />
         </div>
       </el-card>
     </el-form>
@@ -65,10 +65,10 @@
 <script>
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import {GetMenuTreeList,GetTheData,SaveData} from '@/api/action'
+import { GetMenuTreeList, GetTheData, SaveData } from '@/api/action'
 import PermissionList from './components/PermissionList'
 export default {
-  components: { Treeselect,PermissionList },
+  components: { Treeselect, PermissionList },
   props: {
     afterSubmit: {
       type: Function,
@@ -96,7 +96,7 @@ export default {
       this.visible = true
       this.entity = {}
       this.$nextTick(() => {
-        //this.$refs.permissionList.init(id)
+        // this.$refs.permissionList.init(id)
         this.$refs['form'].clearValidate()
       })
       GetMenuTreeList({}).then(resJson => {
@@ -142,7 +142,7 @@ export default {
      * 后台返回的数据和VueTreeselect要求的数据结构不同，需要进行转换
      */
     normalizer(node) {
-      //去掉children=[]的children属性
+      // 去掉children=[]的children属性
       if (node.children && !node.children.length) {
         delete node.children
       }

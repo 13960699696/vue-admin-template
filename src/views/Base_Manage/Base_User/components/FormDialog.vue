@@ -30,7 +30,7 @@
           :show-count="true"
           placeholder="请选择部门"
           :normalizer="normalizer"
-          :isDefaultExpanded="true"
+          :is-default-expanded="true"
         />
       </el-form-item>
       <el-form-item label="生日" prop="Birthday">
@@ -40,8 +40,7 @@
           placeholder="选择生日"
           style="width: 100%;"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item label="角色" prop="RoleIdList">
         <el-select v-model="entity.RoleIdList" multiple style="width: 100%;">
@@ -50,7 +49,7 @@
             :key="item.Id"
             :value="item.Id"
             :label="item.RoleName"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
     </el-form>
@@ -149,7 +148,7 @@ export default {
      * 后台返回的数据和VueTreeselect要求的数据结构不同，需要进行转换
      */
     normalizer(node) {
-      //去掉children=[]的children属性
+      // 去掉children=[]的children属性
       if (node.children && !node.children.length) {
         delete node.children
       }

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { GetDataList, SaveData, GetTheData } from '@/api/role'
+import { SaveData, GetTheData } from '@/api/role'
 import { GetActionTreeList, GetAllActionList } from '@/api/action'
 export default {
   props: {

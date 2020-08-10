@@ -24,5 +24,5 @@ module.exports = {
    * @type {boolean} true | false
    * @description 开启 Tags-View
    */
-  tagsView: true,
+  tagsView: true
 }

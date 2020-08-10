@@ -36,7 +36,7 @@ export default {
   name: 'Page401',
   data() {
     return {
-      errGif: errGif + '?' + +new Date(),
+      errGif: errGif + '?' + +new Date()
     }
   },
   methods: {

@@ -6,8 +6,7 @@
         icon="el-icon-edit"
         type="default"
         @click="handleAdd"
-        >添加权限</el-button
-      >
+      >添加权限</el-button>
     </div>
     <el-table :data="data" border style="width: 100%;">
       <el-table-column
@@ -20,8 +19,8 @@
         <template slot-scope="{ row, column, $index }">
           <el-input
             v-if="row.editable"
-            style="margin: -5px 0;"
             v-model="cacheData[$index][column.property]"
+            style="margin: -5px 0;"
           />
           <template v-else>{{ cacheData[$index][column.property] }}</template>
         </template>
@@ -37,10 +36,10 @@
             <span v-if="row.editable">
               <el-button @click="save($index)">保存</el-button>
               <el-popconfirm
-                confirmButtonText="好的"
-                cancelButtonText="不用了"
+                confirm-button-text="好的"
+                cancel-button-text="不用了"
                 icon="el-icon-info"
-                iconColor="red"
+                icon-color="red"
                 title="确认取消吗"
                 @onConfirm="cancel($index)"
               >
@@ -51,10 +50,10 @@
               <el-button @click="() => edit(row.key)">编辑</el-button>
               <el-popconfirm
                 v-if="data.length"
-                confirmButtonText="好的"
-                cancelButtonText="不用了"
+                confirm-button-text="好的"
+                cancel-button-text="不用了"
                 icon="el-icon-info"
-                iconColor="red"
+                icon-color="red"
                 title="确认删除吗"
                 @onConfirm="onDelete(row.key)"
               >
@@ -71,47 +70,47 @@
 <script>
 var uuid = require('node-uuid')
 const columns = [
-  { title: '权限名', dataIndex: 'Name', width: '200'},
-  { title: '权限值(唯一)', dataIndex: 'Value', width: '200'},
+  { title: '权限名', dataIndex: 'Name', width: '200' },
+  { title: '权限值(唯一)', dataIndex: 'Value', width: '200' }
 ]
 export default {
-    data() {
-        return {
-            data: [],
-            columns,
-            parentId: null,
-            cacheData:[]
-        };
-    },
-    mounted() {},
-    methods: {
+  data() {
+    return {
+      data: [],
+      columns,
+      parentId: null,
+      cacheData: []
+    }
+  },
+  mounted() {},
+  methods: {
     /**
      * 编辑页面权限
      */
     edit(key) {
-        const newData = [...this.data]
-        const target = newData.filter(item => key === item.key)[0]
-        if (target) {
-            target.editable = true
-            this.data = newData
-        }
+      const newData = [...this.data]
+      const target = newData.filter(item => key === item.key)[0]
+      if (target) {
+        target.editable = true
+        this.data = newData
+      }
     },
     /**
      * 保存页面权限
      */
     save(key) {
-        this.data[key].Name=this.cacheData[key].Name
-        this.data[key].Value=this.cacheData[key].Value
-        this.cacheData = JSON.parse(JSON.stringify(this.data))
-        this.data[key].editable=false
+      this.data[key].Name = this.cacheData[key].Name
+      this.data[key].Value = this.cacheData[key].Value
+      this.cacheData = JSON.parse(JSON.stringify(this.data))
+      this.data[key].editable = false
     },
     /**
      * 取消
      */
     cancel(key) {
-        this.cacheData[key].Name=this.data[key].Name
-        this.cacheData[key].Value=this.data[key].Value
-        this.data[key].editable=false
+      this.cacheData[key].Name = this.data[key].Name
+      this.cacheData[key].Value = this.data[key].Value
+      this.data[key].editable = false
     },
     /**
      * 删除
@@ -132,18 +131,18 @@ export default {
      * 添加权限
      */
     handleAdd() {
-        const newData = {
-            key: uuid.v4(),
-            Name: '权限名',
-            Value: '权限值',
-            Type: 2,
-            ParentId: this.parentId
-        }
-        this.data = JSON.parse(JSON.stringify([...this.data, newData]))
-        this.cacheData = JSON.parse(JSON.stringify([...this.data, newData]))
+      const newData = {
+        key: uuid.v4(),
+        Name: '权限名',
+        Value: '权限值',
+        Type: 2,
+        ParentId: this.parentId
       }
+      this.data = JSON.parse(JSON.stringify([...this.data, newData]))
+      this.cacheData = JSON.parse(JSON.stringify([...this.data, newData]))
     }
-};
+  }
+}
 </script>
 <style scoped lang="scss">
 .editable-row-operations a {
