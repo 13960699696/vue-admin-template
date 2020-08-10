@@ -60,58 +60,51 @@ export const asyncRoutes = [
   {
     path: '/Base_Manage',
     component: Layout,
-    redirect: '/Base_Manage/Base_User',
     alwaysShow: true,
     name: 'Base_Manage',
     meta: {
       title: '系统管理',
-      icon: 'example',
-      roles: ['超级管理员']
+      icon: 'setting',
     },
     children: [
       {
-        path: 'base_User',
-        component: () => import('@/views/Base_Manage/Base_User/List'),
+        path: 'Base_User',
+        component: () => import('@/views/Base_Manage/Base_User'),
         name: 'Base_User',
         meta: {
           title: '用户管理',
-          roles: ['超级管理员']
         }
       },
       {
-        path: 'base_Role',
-        component: () => import('@/views/Base_Manage/Base_Role/List'),
+        path: 'Base_Role',
+        component: () => import('@/views/Base_Manage/Base_Role'),
         name: 'Base_Role',
         meta: {
           title: '角色管理',
-          roles: ['超级管理员']
         }
       },
       {
         path: 'Base_Department',
-        component: () => import('@/views/Base_Manage/Base_Department/List'),
+        component: () => import('@/views/Base_Manage/Base_Department'),
         name: 'Base_Department',
         meta: {
           title: '部门管理',
-          roles: ['超级管理员']
         }
       },
       {
         path: 'Base_Action',
-        component: () => import('@/views/Base_Manage/Base_Action/List'),
+        component: () => import('@/views/Base_Manage/Base_Action'),
         name: 'Base_Action',
         meta: {
           title: '权限管理',
-          roles: ['超级管理员']
         }
       },
       {
         path: 'Base_AppSecret',
-        component: () => import('@/views/Base_Manage/Base_AppSecret/List'),
+        component: () => import('@/views/Base_Manage/Base_AppSecret'),
         name: 'Base_AppSecret',
         meta: {
           title: '密钥管理',
-          roles: ['超级管理员']
         }
       }
     ]

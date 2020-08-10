@@ -1,5 +1,5 @@
-import { asyncRoutes, constantRoutes } from '@/router'
-
+import { constantRoutes } from '@/router'
+import { initRouter } from '@/router/asyncRoutes'
 /**
  * 使用meta角色确定当前用户是否具有权限
  * @param roles
@@ -7,7 +7,7 @@ import { asyncRoutes, constantRoutes } from '@/router'
  */
 function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
-    return roles.some(role =>  route.meta.roles.includes(role))
+    return roles.some(role => route.meta.roles.includes(role))
   } else {
     return true
   }
@@ -48,14 +48,16 @@ const mutations = {
 const actions = {
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('系统管理员')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
+      initRouter().then((res) => {
+        let accessedRoutes
+        if (roles.includes('系统管理员')) {
+          accessedRoutes = res || []
+        } else {
+          accessedRoutes = filterAsyncRoutes(res, roles)
+        }
+        commit('SET_ROUTES', accessedRoutes)
+        resolve(accessedRoutes)
+      });
     })
   }
 }

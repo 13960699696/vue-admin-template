@@ -32,6 +32,16 @@ export function ChangePwd(data) {
   })
 }
 /**
+ * 获取权限菜单列表
+ */
+export function GetOperatorMenuList() {
+  return request({
+    url: '/Base_Manage/Home/GetOperatorMenuList',
+    method: 'post'
+  })
+}
+
+/**
  * 获取用户列表
  * @param {*} data all,id,key
  */
