@@ -88,7 +88,7 @@ const columns = [
   { title: '应用名', dataIndex: 'AppName' }
 ]
 export default {
-  name: 'BaseAppSecret',
+  name: 'Base_AppSecret',
   components: { Pagination, FormDialog },
   directives: { waves },
   data() {

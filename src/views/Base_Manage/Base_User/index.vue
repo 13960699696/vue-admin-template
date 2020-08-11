@@ -82,7 +82,7 @@ const columns = [
   { title: '所属角色', dataIndex: 'RoleNames', width: '300' }
 ]
 export default {
-  name: 'BaseUser',
+  name: 'Base_User',
   components: { Pagination, FormDialog },
   directives: { waves },
   data() {

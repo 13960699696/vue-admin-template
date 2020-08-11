@@ -72,7 +72,7 @@ const columns = [
   { title: '部门名', dataIndex: 'Text', width: '300' }
 ]
 export default {
-  name: 'BaseDepartment',
+  name: 'Base_Department',
   components: { FormDialog },
   data() {
     return {

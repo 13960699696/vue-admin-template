@@ -89,7 +89,7 @@ const columns = [
   { title: '排序', dataIndex: 'Sort', width: '60' }
 ]
 export default {
-  name: 'BaseAction',
+  name: 'Base_Action',
   components: { FormDialog },
   data() {
     return {

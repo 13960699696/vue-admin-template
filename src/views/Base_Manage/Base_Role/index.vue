@@ -86,7 +86,7 @@ const columns = [
   { title: '角色名', dataIndex: 'RoleName', width: '300' }
 ]
 export default {
-  name: 'BaseRole',
+  name: 'Base_Role',
   components: { Pagination, FormDialog },
   directives: { waves },
   data() {

@@ -79,6 +79,7 @@ const columns = [
   { title: '时间', dataIndex: 'CreateTime', width: '200' }
 ]
 export default {
+  name: 'Base_UserLog',
   components: { Pagination },
   data() {
     return {
