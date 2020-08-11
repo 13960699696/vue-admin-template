@@ -77,7 +77,7 @@ export default {
   },
   data() {
     return {
-      title: '新增权限',
+      title: '',
       visible: false,
       entity: {},
       ParentIdTreeData: [],
@@ -109,6 +109,7 @@ export default {
      * 打开弹框如果是修改自动赋值
      */
     openForm(id) {
+      this.title = '新增权限'
       this.init()
       if (id) {
         this.title = '编辑权限'

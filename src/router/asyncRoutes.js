@@ -15,36 +15,20 @@ const notFoundRouter = [{
 // 开发模式额外路由
 const devRouter = [
   {
-    title: '开发',
-    icon: 'code',
+    path: '/Develop',
+    component: Layout,
+    alwaysShow: true,
+    name: 'Develop',
+    meta: {
+      title: '开发管理',
+      icon: 'table'
+    },
     children: [
       {
-        path: '/Base_Manage/Base_DbLink/List',
-        title: '数据库连接'
-      },
-      {
-        path: '/Base_Manage/BuildCode/List',
-        title: '代码生成'
-      },
-      {
-        path: '/Develop/IconSelectorView',
-        title: '图标选择'
-      },
-      {
-        path: '/Develop/UploadImg',
-        title: '图片上传Demo'
-      },
-      {
-        path: '/Develop/UploadFile',
-        title: '文件上传Demo'
-      },
-      {
-        path: '/Develop/Editor',
-        title: '富文本Demo'
-      },
-      {
-        path: '/Develop/SelectSearch',
-        title: '下拉搜索Demo'
+        path: 'DbLink',
+        component: () => import('@/views/Develop/DbLink'),
+        name: 'DbLink',
+        meta: { title: '数据库连接' }
       }
     ]
   }
@@ -58,9 +42,9 @@ const devRouter = [
 export const initRouter = (to, from, next) => {
   return new Promise((resolve) => {
     generatorDynamicRouter().then(dynamicRouter => {
-      // if (process.env.NODE_ENV == 'development') {
-      //     dynamicRouter.push(...devRouter)
-      // }
+      if (process.env.NODE_ENV === 'development') {
+        dynamicRouter.push(...devRouter)
+      }
       dynamicRouter.push(...notFoundRouter)
       resolve(dynamicRouter)
     })

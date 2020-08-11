@@ -1,21 +1,42 @@
 <template>
-  <el-dialog :title="title" :visible.sync="visible" width="600px">
+  <el-dialog :title="title" :visible.sync="visible" width="800px">
     <el-form
       ref="form"
       :rules="rules"
       :model="entity"
       label-position="left"
-      label-width="70px"
-      style="width: 500px;"
+      label-width="100px"
+      style="width: 700px;"
     >
-      <el-form-item label="应用Id" prop="AppId">
-        <el-input v-model="entity.AppId" autocomplete="off" />
+      <el-form-item label="连接名" prop="LinkName">
+        <el-input v-model="entity.LinkName" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="密钥" prop="AppSecret">
-        <el-input v-model="entity.AppSecret" autocomplete="off" />
+      <el-form-item label="连接字符串" prop="ConnectionStr">
+        <el-input v-model="entity.ConnectionStr" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="应用名" prop="AppName">
-        <el-input v-model="entity.AppName" autocomplete="off" />
+      <el-form-item label="数据库类型" prop="DbType">
+        <el-select v-model="entity.DbType" style="width: 100%;">
+          <el-option
+            key="SqlServer"
+            value="SqlServer"
+            label="SqlServer"
+          />
+          <el-option
+            key="MySql"
+            value="MySql"
+            label="MySql"
+          />
+          <el-option
+            key="PostgreSql"
+            value="PostgreSql"
+            label="PostgreSql"
+          />
+          <el-option
+            key="Oracle"
+            value="Oracle"
+            label="Oracle"
+          />
+        </el-select>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -30,7 +51,7 @@
 </template>
 
 <script>
-import { GetTheData, SaveData } from '@/api/appsecret'
+import { GetTheData, SaveData } from '@/api/Develop/DbLink'
 export default {
   props: {
     afterSubmit: {
@@ -44,16 +65,16 @@ export default {
       visible: false,
       entity: {},
       rules: {
-        AppId: [{ required: true, message: '必填' }],
-        AppSecret: [{ required: true, message: '必填' }],
-        AppName: [{ required: true, message: '必填' }]
+        LinkName: [{ required: true, message: '必填' }],
+        ConnectionStr: [{ required: true, message: '必填' }],
+        DbType: [{ required: true, message: '必填' }]
       }
     }
   },
+  mounted() {
+
+  },
   methods: {
-    /**
-     * 初始化表单数据
-     */
     init() {
       this.visible = true
       this.entity = {}
@@ -61,27 +82,22 @@ export default {
         this.$refs['form'].clearValidate()
       })
     },
-    /**
-     * 打开弹框如果是修改自动赋值
-     */
     openForm(id) {
-      this.title = '添加接口密钥'
+      this.title = '新增数据库配置'
       this.init()
       if (id) {
-        this.title = '编辑接口密钥'
+        this.title = '编辑数据库配置'
         GetTheData({ id: id }).then(resJson => {
           this.entity = resJson.Data
         })
       }
     },
-    /**
-     * 新增或修改密钥
-     */
     handleSubmit() {
       this.$refs['form'].validate(valid => {
         if (!valid) {
           return
         }
+        this.confirmLoading = true
         SaveData(this.entity).then(resJson => {
           if (resJson.Success) {
             this.$message.success('操作成功!')
@@ -96,3 +112,7 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="less">
+
+</style>

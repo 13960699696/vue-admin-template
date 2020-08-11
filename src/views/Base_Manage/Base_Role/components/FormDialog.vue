@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      title: '新增角色',
+      title: '',
       visible: false,
       entity: {},
       actionsTreeData: [],
@@ -84,9 +84,10 @@ export default {
      * 打开弹框如果是修改自动赋值
      */
     openForm(id) {
+      this.title = '新增角色'
       this.init()
       if (id) {
-        this.title = '编辑用户'
+        this.title = '编辑角色'
         GetTheData({ id: id }).then(resJson => {
           this.entity = resJson.Data
           this.entity.Actions.forEach((i, n) => {
