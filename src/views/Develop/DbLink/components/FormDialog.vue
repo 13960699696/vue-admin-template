@@ -97,7 +97,6 @@ export default {
         if (!valid) {
           return
         }
-        this.confirmLoading = true
         SaveData(this.entity).then(resJson => {
           if (resJson.Success) {
             this.$message.success('操作成功!')
@@ -112,7 +111,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="less">
-
-</style>

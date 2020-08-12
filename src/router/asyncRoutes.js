@@ -29,6 +29,12 @@ const devRouter = [
         component: () => import('@/views/Develop/DbLink'),
         name: 'DbLink',
         meta: { title: '数据库连接' }
+      },
+      {
+        path: 'BuildCode',
+        component: () => import('@/views/Develop/BuildCode'),
+        name: 'BuildCode',
+        meta: { title: '代码自动生成' }
       }
     ]
   }
@@ -100,7 +106,7 @@ const generator = (routerMap, parent = '') => {
     currentRouter.meta = { title: item.title, icon: item.icon || undefined }
     currentRouter.component = (resolve) => require([`@/views${fullpath}`], resolve)
     // 层级为第一层添加的额外属性
-    if (hasChildren && item.Level == 1) {
+    if (hasChildren && item.Level === 1) {
       currentRouter.component = Layout
       currentRouter.alwaysShow = true
     }
