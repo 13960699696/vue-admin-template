@@ -11,6 +11,7 @@
 
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
+        <search id="header-search" class="right-menu-item" />
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
 
@@ -22,7 +23,7 @@
           <img
             src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596004160609&di=b1ad41b083a9da47335258385fe2a812&imgtype=0&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D1300839109%2C1341299699%26fm%3D214%26gp%3D0.jpg"
             class="user-avatar"
-          />
+          >
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -47,38 +48,39 @@
       :append-to-body="true"
     >
       <el-form
+        ref="ruleForm"
         :model="ruleForm"
         status-icon
         :rules="rules"
-        ref="ruleForm"
         label-width="100px"
         style="width: 300px;"
       >
         <el-form-item label="原密码" prop="oldPwd">
           <el-input
-            type="password"
             v-model="ruleForm.oldPwd"
+            type="password"
             autocomplete="off"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="新密码" prop="newPwd">
           <el-input
-            type="password"
             v-model="ruleForm.newPwd"
+            type="password"
             autocomplete="off"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
           <el-input
-            type="password"
             v-model="ruleForm.checkPass"
+            type="password"
             autocomplete="off"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')"
-            >提交</el-button
-          >
+          <el-button
+            type="primary"
+            @click="submitForm('ruleForm')"
+          >提交</el-button>
           <el-button @click="$refs['ruleForm'].resetFields()">重置</el-button>
         </el-form-item>
       </el-form>
@@ -91,6 +93,7 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
+import Search from '@/components/HeaderSearch'
 import { ChangePwd } from '@/api/user'
 import { validPassword } from '@/utils/validate'
 
@@ -98,7 +101,8 @@ export default {
   components: {
     Breadcrumb,
     Hamburger,
-    Screenfull
+    Screenfull,
+    Search
   },
   computed: {
     ...mapGetters(['sidebar', 'device'])
@@ -161,7 +165,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let arr2 = { ...this.ruleForm }
+          const arr2 = { ...this.ruleForm }
           delete arr2.checkPass
           ChangePwd(arr2).then(res => {
             this.$message({
